@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,13 +13,26 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class User
 {
+
+    use TimestampableTrait;
+
     #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     #[ORM\GeneratedValue]
     private int|null $id = null;
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     private string $name;
 
+
+    #[ORM\Column(type: Types::STRING)]
+    private string $email;
+
+    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'user', cascade: ['persist' , 'remove'], orphanRemoval: true)]
+    private Collection $posts;
+
+    public function __construct(){
+        $this->posts = new ArrayCollection();
+    }
     public function getEmail(): string
     {
         return $this->email;
@@ -43,37 +58,33 @@ class User
         return $this->id;
     }
 
-    #[ORM\Column(type: 'string')]
-    private string $email;
-
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private ?\DateTimeImmutable $created_at;
-
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private ?\DateTimeImmutable $updated_at;
-
-    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'user')]
-    private Collection $posts;
-
-    public function __construct(){
-        $this->created_at = new \DateTimeImmutable();
-        $this->updated_at = new \DateTimeImmutable();
-    }
-
-    #[ORM\PreUpdate]
-    public function setUpdatedAt(): void{
-        $this->updated_at = new \DateTimeImmutable();
-    }
-
-    public function getCreatedAt(): \DateTimeImmutable
+    public function addPost(Post $post): void
     {
-        return $this->created_at;
+        $this->posts->add($post);
     }
 
-    public function getUpdatedAt(): \DateTimeImmutable
+    public function getPosts(): Collection
     {
-        return $this->updated_at;
+        return $this->posts;
+    }
+    
+    public function removePost(Post $post): void
+    {
+        $this->posts->removeElement($post);
     }
 
+    public function printPostagens(): void
+    {
+        echo "Usuário: " . $this->getName() . PHP_EOL;
+        echo "Postagens:" . PHP_EOL;
+        if($this->posts->count() == 0){
+            echo "\t- Nenhuma Postagem" . PHP_EOL . PHP_EOL;
+            return;
+        }
 
+        foreach($this->posts as $post){
+            echo "\t- " . $post->getTitle() . PHP_EOL;
+        }
+        echo PHP_EOL;
+    }
 }

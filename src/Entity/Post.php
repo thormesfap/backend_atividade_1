@@ -26,31 +26,38 @@ class Post
     #[ORM\Column(type: Types::TEXT)]
     private string $content;
 
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private ?\DateTimeImmutable $created_at;
-
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private ?\DateTimeImmutable $updated_at;
-
-    public function __construct()
+    public function getTitle(): string
     {
-        $this->created_at = new \DateTimeImmutable();
-        $this->updated_at = new \DateTimeImmutable();
+        return $this->title;
     }
 
-    #[ORM\PreUpdate]
-    public function setUpdatedAt(): void
+    public function setTitle(string $title): void
     {
-        $this->updated_at = new \DateTimeImmutable();
+        $this->title = $title;
     }
 
-    public function getCreatedAt(): \DateTimeImmutable
+    public function getContent(): string
     {
-        return $this->created_at;
+        return $this->content;
     }
 
-    public function getUpdatedAt(): \DateTimeImmutable
+    public function setContent(string $content): void
     {
-        return $this->updated_at;
+        $this->content = $content;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }
