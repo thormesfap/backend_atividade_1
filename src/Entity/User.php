@@ -27,6 +27,7 @@ class User
     #[ORM\Column(type: Types::STRING)]
     private string $email;
 
+    //Configuração de relação entre posts e usuário. Opção cascade permite que o ORM, ao apagar usuários, automaticamente já apague todos os posts vinculados ao usuário
     #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'user', cascade: ['persist' , 'remove'], orphanRemoval: true)]
     private Collection $posts;
 
@@ -40,6 +41,9 @@ class User
 
     public function setEmail(string $email): void
     {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new \InvalidArgumentException("Email Inválido");
+        }
         $this->email = $email;
     }
 
@@ -73,6 +77,10 @@ class User
         $this->posts->removeElement($post);
     }
 
+    /**
+     * Função que imprime no console o nome do usuário e o título dos posts
+     * @return void
+     */
     public function printPostagens(): void
     {
         echo "Usuário: " . $this->getName() . PHP_EOL;
