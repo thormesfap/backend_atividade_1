@@ -24,7 +24,7 @@ class User
     private string $name;
 
 
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, unique: true)]
     private string $email;
 
     //Configuração de relação entre posts e usuário. Opção cascade permite que o ORM, ao apagar usuários, automaticamente já apague todos os posts vinculados ao usuário
