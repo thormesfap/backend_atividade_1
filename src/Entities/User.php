@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entities;
 
-use App\Entity\Trait\TimestampableTrait;
+use App\Entities\Trait\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;

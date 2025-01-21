@@ -17,23 +17,23 @@ Após criação das tabelas do banco de dados, os comandos abaixos podem ser exe
 ### Criação de Usuário
 Obrigatório informar nome do usuário e email. Para usar nome completo, envolver o nome em aspas
 ```
-php scripts/create_user.php 'Nome de Usuário' 'email@exemplo.com'
+php src/Scripts/create_user.php 'Nome de Usuário' 'email@exemplo.com'
 ```
 
 ### Criação de Post
 Obrigatório informar o id do usuário, Título do Post e Conteúdo do Post.
 ```
-php scripts/create_post.php idUsuario 'Título do Post' 'Conteúdo do Post'
+php src/Scripts/create_post.php idUsuario 'Título do Post' 'Conteúdo do Post'
 ```
 
 ### Listar Usuários e Respectivos Posts
 Opcional informar id do usuário. Caso informado, traz somente os do usuário informado. Se não informado, traz de todos os usuários
 ```
-php scripts/listar_usuarios_posts.php [idUsuario]
+php src/Scripts/listar_usuarios_posts.php [idUsuario]
 ```
 
 ### Apagar Usuário
 Obrigatório informar o id do usuário. Apaga o usuário e os posts relacionados.
 ```
-php scripts/delete_user.php idUsuario
+php src/Scripts/delete_user.php idUsuario
 ```

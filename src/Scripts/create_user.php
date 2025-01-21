@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../bootstrap.php';
+require_once __DIR__ . '/../../bootstrap.php';
 
 
 
@@ -9,13 +9,13 @@ function addUser(string $name, string $email): void
 {
     global $entityManager;
     //Buscar se usuário já existe com mesmo e-mail para não cadastrar em duplicidade
-    $existing = $entityManager->getRepository(\App\Entity\User::class)->findOneBy(['email' => $email]);
+    $existing = $entityManager->getRepository(\App\Entities\User::class)->findOneBy(['email' => $email]);
     if($existing){
         echo "Usuário já está cadastrado\n";
         return;
     }
     //Cadastra o usuário caso não exista um com o mesmo e-mail
-    $user = new \App\Entity\User();
+    $user = new \App\Entities\User();
     $user->setName($name);
     $user->setEmail($email);
     $entityManager->persist($user);

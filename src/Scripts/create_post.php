@@ -1,19 +1,20 @@
 <?php
 
-require_once __DIR__ . '/../bootstrap.php';
+require_once __DIR__ . '/../../bootstrap.php';
+
 function addPost($userId, $title, $content): void
 {
     global $entityManager;
 
     //Verifica se o usuário com id informado existe no banco
-    $user = $entityManager->getRepository(\App\Entity\User::class)->find($userId);
+    $user = $entityManager->getRepository(\App\Entities\User::class)->find($userId);
     if (!$user) {
         echo "Usuário não encontrado.\n";
         exit(1);
     }
 
     //Cria o novo post, vinculando ao usuário encontrado
-    $post = new \App\Entity\Post();
+    $post = new \App\Entities\Post();
     $post->setTitle($title);
     $post->setContent($content);
     $post->setUser($user);
